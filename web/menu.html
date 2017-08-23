@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu</title>
+</head>
+<body>
+<form id="menu" action="/MyServlet" method="get">
+    <p> <input type="submit" value="Создание контакта" onclick="document.getElementById('command').value = 'a'; document.myform.submit(); "></p>
+    <p> <input type="submit" value="Редактирование контакта" onclick="document.getElementById('command').value = 'b'; document.myform.submit(); "></p>
+    <p> <input type="submit" value="Удаление контакта" onclick="document.getElementById('command').value = 'c'; document.myform.submit(); "></p>
+    <p> <input type="submit" value="Назначение группы контакту (лейбл)" onclick="document.getElementById('command').value = 'd'; document.myform.submit(); "></p>
+    <p> <input type="submit" value="Удаление группы у контакта" onclick="document.getElementById('command').value = 'e'; document.myform.submit(); "></p>
+    <p> <input type="submit" value="Просмотр информации о контактах" onclick="document.getElementById('command').value = 'f'; document.myform.submit(); "></p>
+    <p> <input type="submit" value="Просмотр контактов определенной группы" onclick="document.getElementById('command').value = 'g'; document.myform.submit(); "></p>
+    <p> <input type="submit" value="Просмотр списка всех групп" onclick="document.getElementById('command').value = 'h'; document.myform.submit(); "></p>
+    <p> <input type="submit" value="Добавление новой группы" onclick="document.getElementById('command').value = 'i'; document.myform.submit(); "></p>
+    <p> <input type="submit" value="Удаление группы" onclick="document.getElementById('command').value = 'j'; document.myform.submit(); "></p>
+    <p> <input type="submit" value="Редактирование группы" onclick="document.getElementById('command').value = 'k'; document.myform.submit(); "></p>
+
+    <input type="hidden" id="command" name="comand" value="" />
+</form>
+</body>
+</html>
