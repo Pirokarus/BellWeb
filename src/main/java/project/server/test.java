@@ -1,6 +1,6 @@
 package project.server;
 
-import project.server.model.services.ContactService;
+import project.server.model.jdbc.services.ContactService;
 
 public class test {
 

@@ -1,9 +1,9 @@
 package project.server.factory;
 
 import project.server.exceptions.MyNotPhoneNumberException;
-import project.server.model.data.Contact;
-import project.server.model.data.Entity;
-import project.server.model.data.Group;
+import project.server.model.jdbc.data.Contact;
+import project.server.model.jdbc.data.Entity;
+import project.server.model.jdbc.data.Group;
 
 import java.util.Set;
 

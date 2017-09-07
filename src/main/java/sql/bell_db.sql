@@ -37,3 +37,18 @@ CREATE TABLE public.references_table
   CONSTRAINT references_table_contact_id_fk FOREIGN KEY (contact_id) REFERENCES contacts (id) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT references_table_groups_id_fk FOREIGN KEY (group_id) REFERENCES groups (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+CREATE TABLE public.roles
+(
+  id SERIAL PRIMARY KEY NOT NULL,
+  name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE public.user_roles
+(
+  user_id INTEGER NOT NULL,
+  role_id INTEGER NOT NULL,
+
+  CONSTRAINT user_roles_user_id_fk FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT user_roles_role_id_fk FOREIGN KEY (role_id) REFERENCES roles (id) ON DELETE CASCADE ON UPDATE CASCADE
+);

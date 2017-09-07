@@ -8,6 +8,13 @@
     <artifactId>BellWeb</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+
+    <properties>
+        <spring.version>4.3.6.RELEASE</spring.version>
+        <hibernate.version>4.3.6.Final</hibernate.version>
+        <jackson.version>2.0.0</jackson.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -21,10 +28,63 @@
             <version>2.5</version>
             <scope>provided</scope>
         </dependency>
+
+        <!--Spring-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!--Hibernate-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
+        <!-- Jackson JSON Mapper -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -124,7 +184,7 @@
 
                     <!--<execution>-->
                     <!--<id>create-data</id>-->
-                    <!--<phase>process-test-resources</phase>-->
+                    <!--<phase>process-Test-resources</phase>-->
                     <!--<goals>-->
                     <!--<goal>execute</goal>-->
                     <!--</goals>-->
@@ -141,8 +201,8 @@
                     <!--</execution>-->
 
                     <!--<execution>-->
-                    <!--<id>drop-db-after-test</id>-->
-                    <!--<phase>test</phase>-->
+                    <!--<id>drop-db-after-Test</id>-->
+                    <!--<phase>Test</phase>-->
                     <!--<goals>-->
                     <!--<goal>execute</goal>-->
                     <!--</goals>-->

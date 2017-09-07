@@ -1,10 +1,10 @@
 package project.server.factory;
 
-import project.server.model.dao.ContactDAO;
-import project.server.model.dao.DAOTypes;
-import project.server.model.dao.GroupDAO;
-import project.server.model.dao.jdbc.JdbcContactDAO;
-import project.server.model.dao.jdbc.JdbcGroupDAO;
+import project.server.model.jdbc.dao.ContactDAO;
+import project.server.model.jdbc.dao.DAOTypes;
+import project.server.model.jdbc.dao.GroupDAO;
+import project.server.model.jdbc.dao.jdbc.JdbcContactDAO;
+import project.server.model.jdbc.dao.jdbc.JdbcGroupDAO;
 
 public class DAOFactory {
     public static ContactDAO getContactDAO(DAOTypes type){

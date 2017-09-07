@@ -1,10 +1,10 @@
 package project.server;
 
 import project.server.factory.EntityFactory;
-import project.server.model.data.Contact;
-import project.server.model.data.Group;
-import project.server.model.services.ContactService;
-import project.server.model.services.GroupService;
+import project.server.model.jdbc.data.Contact;
+import project.server.model.jdbc.data.Group;
+import project.server.model.jdbc.services.ContactService;
+import project.server.model.jdbc.services.GroupService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
