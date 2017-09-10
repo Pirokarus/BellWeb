@@ -10,12 +10,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.sql.DataSource;
 
-@Configuration
+/*@Configuration
 //@EnableWebMvc
 @ComponentScan(basePackages = "project.server.hibernate")
-@PropertySource(value = {"classpath:dboptions.properties"})
+@PropertySource(value = {"classpath:dboptions.properties"})*/
 public class SpringConfiguration {
-
+/*
     @Autowired
     Environment environment;
 
@@ -28,6 +28,6 @@ public class SpringConfiguration {
         dataSource.setUsername(environment.getRequiredProperty("jdbc.username"));
         dataSource.setPassword(environment.getRequiredProperty("jdbc.password"));
         return dataSource;
-    }
+    }*/
 
 }

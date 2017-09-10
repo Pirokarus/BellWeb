@@ -1,5 +1,10 @@
-select add_user('user1','user1');
-select add_user('user2','user2');
+select add_user('user1','$2a$10$0G8Hfc2zMlLrUzZwn8T77umxhfqrh/HGVptE5DNmPIf3BY5xcuV0S');
+select add_user('user2','$2a$10$52Hp837wHUEcOETgcxGSTu1h2BhTh6wgHfC5NipnAPGlK2VnWKMMe');
+
+INSERT INTO roles VALUES ('ROLE_USER');
+
+INSERT INTO user_roles(user_id, role_id) VALUES (1,1);
+INSERT INTO user_roles(user_id, role_id) VALUES (2,1);
 
 select add_group('u1_people',1);
 select add_group('u1_companies',1);

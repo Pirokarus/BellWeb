@@ -1,6 +1,7 @@
 package project.server.hibernate.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "users", schema = "public", catalog = "postgres")
@@ -8,6 +9,18 @@ public class UsersEntity {
     private int id;
     private String login;
     private String password;
+    private Set<RolesEntity> roles;
+
+    @ManyToMany
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    public Set<RolesEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RolesEntity> roles) {
+        this.roles = roles;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

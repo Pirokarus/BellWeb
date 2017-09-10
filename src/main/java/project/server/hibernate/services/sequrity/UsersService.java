@@ -1,4 +1,4 @@
-package project.server.hibernate.services;
+package project.server.hibernate.services.sequrity;
 
 import project.server.hibernate.entities.UsersEntity;
 
@@ -19,4 +19,6 @@ public interface UsersService {
     void deleteById(int id);
 
     void updateUser(UsersEntity entity);
+
+    UsersEntity findByUsername(String username);
 }

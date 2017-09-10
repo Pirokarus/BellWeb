@@ -1,6 +1,77 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!-- Database Information -->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+          destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url"
+                  value="jdbc:postgresql://localhost:5433/postgres"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="postgres"/>
+    </bean>
+
+    <!-- Hibernate 4 SessionFactory Bean definition -->
+    <bean id="hibernate4AnnotatedSessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>project.server.hibernate.entities.ContactsEntity</value>
+                <value>project.server.hibernate.entities.GroupsEntity</value>
+                <value>project.server.hibernate.entities.ReferencesTableEntity</value>
+                <value>project.server.hibernate.entities.UsersEntity</value>
+                <value>project.server.hibernate.entities.RolesEntity</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect
+                </prop>
+                <prop key="hibernate.show_sql">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--BookDao and BookService beans-->
+    <bean id="contactsDAO" class="project.server.hibernate.dao.ContactsDAOImpl"/>
+    <bean id="groupsDAO" class="project.server.hibernate.dao.GroupsDAOImpl"/>
+    <bean id="referencesTableDAO" class="project.server.hibernate.dao.ReferencesTableDAOImpl"/>
+    <bean id="usersDAO" class="project.server.hibernate.dao.UsersDAOImpl"/>
+    <bean id="rolesDAO" class="project.server.hibernate.dao.RoleDAOImpl"/>
+
+
+    <bean id="contactsService" class="project.server.hibernate.services.ContactsServiceImpl"/>
+    <bean id="groupsService" class="project.server.hibernate.services.GroupsServiceImpl"/>
+    <bean id="referencesService" class="project.server.hibernate.services.ReferencesTableServiceImpl"/>
+    <bean id="usersService" class="project.server.hibernate.services.sequrity.UsersServiceImpl"/>
+
+
+    <context:component-scan base-package="project.server.hibernate"/>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="hibernate4AnnotatedSessionFactory"/>
+    </bean>
+
+    <mvc:default-servlet-handler/>
+    <mvc:annotation-driven/>
+
+    <!--Spring Security-->
+
+
 
 </beans>

@@ -13,6 +13,11 @@
         <spring.version>4.3.6.RELEASE</spring.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
         <jackson.version>2.0.0</jackson.version>
+        <spring-security.version>4.0.2.RELEASE</spring-security.version>
+        <spring-data-jpa.version>1.8.2.RELEASE</spring-data-jpa.version>
+        <hibernate-validator.version>5.2.1.Final</hibernate-validator.version>
+        <commons-dbcp.version>1.4</commons-dbcp.version>
+        <jstl.version>1.2</jstl.version>
     </properties>
 
     <dependencies>
@@ -38,6 +43,18 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>3.0.5.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
@@ -56,20 +73,44 @@
 
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring-data-jpa.version}</version>
+        </dependency>
+
         <!--Hibernate-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.hibernate</groupId>-->
+            <!--<artifactId>hibernate-validator</artifactId>-->
+            <!--<version>${hibernate-validator.version}</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
 
@@ -77,8 +118,30 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
+            <version>2.5.3</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-dbcp/commons-dbcp -->
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.8.0-alpha2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
+
 
     </dependencies>
 
@@ -94,131 +157,129 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>sql-maven-plugin</artifactId>
-                <version>1.5</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>postgresql</groupId>
-                        <artifactId>postgresql</artifactId>
-                        <version>RELEASE</version>
-                    </dependency>
-                </dependencies>
+            <!--<plugin>-->
+                <!--<groupId>org.codehaus.mojo</groupId>-->
+                <!--<artifactId>sql-maven-plugin</artifactId>-->
+                <!--<version>1.5</version>-->
+                <!--<dependencies>-->
+                    <!--<dependency>-->
+                        <!--<groupId>postgresql</groupId>-->
+                        <!--<artifactId>postgresql</artifactId>-->
+                        <!--<version>RELEASE</version>-->
+                    <!--</dependency>-->
+                <!--</dependencies>-->
 
-                <configuration>
-                    <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://localhost:5433:belldb</url>
-                    <username>postgres</username>
-                    <password>root</password>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>drop-db-before-test-if-any</id>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <url>jdbc:postgresql://localhost:5433:belldb2</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>drop database belldb2</sqlCommand>
-                            <onError>continue</onError>
-                        </configuration>
-                    </execution>
+                <!--<configuration>-->
+                    <!--<driver>org.postgresql.Driver</driver>-->
+                    <!--<url>jdbc:postgresql://localhost:5433:belldb</url>-->
+                    <!--<username>postgres</username>-->
+                    <!--<password>root</password>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>drop-db-before-test-if-any</id>-->
+                        <!--<goals>-->
+                            <!--<goal>execute</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<url>jdbc:postgresql://localhost:5433:belldb2</url>-->
+                            <!--<autocommit>true</autocommit>-->
+                            <!--<sqlCommand>drop database belldb2</sqlCommand>-->
+                            <!--<onError>continue</onError>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
 
-
-                    <execution>
-                        <id>create-db</id>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <url>jdbc:postgresql://localhost:5433:belldb2</url>
-                            <autocommit>true</autocommit>
-                            <sqlCommand>create database belldb2</sqlCommand>
-                        </configuration>
-                    </execution>
-
-
-                    <execution>
-                        <id>create-schema</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <autocommit>true</autocommit>
-                            <srcFiles>
-                                <srcFile>src/main/java/sql/bell_db.sql</srcFile>
-                            </srcFiles>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>create-functions</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <autocommit>true</autocommit>
-                            <srcFiles>
-                                <srcFile>src/main/java/sql/functions.sql</srcFile>
-                            </srcFiles>
-                        </configuration>
-                    </execution>
-
-                    <execution>
-                        <id>create-data</id>
-                        <phase>process-test-resources</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <autocommit>true</autocommit>
-                            <srcFiles>
-                                <srcFile>src/main/java/sql/data.sql</srcFile>
-                            </srcFiles>
-                        </configuration>
-                    </execution>
 
                     <!--<execution>-->
-                    <!--<id>create-data</id>-->
-                    <!--<phase>process-Test-resources</phase>-->
-                    <!--<goals>-->
-                    <!--<goal>execute</goal>-->
-                    <!--</goals>-->
-                    <!--<configuration>-->
-                    <!--<orderFile>ascending</orderFile>-->
-                    <!--<fileset>-->
-                    <!--<basedir>${basedir}</basedir>-->
-                    <!--<includes>-->
-                    <!--&lt;!&ndash;<include>src/main/java/functions.sql</include>&ndash;&gt;-->
-                    <!--<include>src/main/java/data.sql</include>-->
-                    <!--</includes>-->
-                    <!--</fileset>-->
-                    <!--</configuration>-->
+                        <!--<id>create-db</id>-->
+                        <!--<goals>-->
+                            <!--<goal>execute</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<url>jdbc:postgresql://localhost:5433:belldb2</url>-->
+                            <!--<autocommit>true</autocommit>-->
+                            <!--<sqlCommand>create database belldb2</sqlCommand>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+
+
+                    <!--<execution>-->
+                        <!--<id>create-schema</id>-->
+                        <!--<phase>process-test-resources</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>execute</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<autocommit>true</autocommit>-->
+                            <!--<srcFiles>-->
+                                <!--<srcFile>src/main/java/sql/bell_db.sql</srcFile>-->
+                            <!--</srcFiles>-->
+                        <!--</configuration>-->
                     <!--</execution>-->
 
                     <!--<execution>-->
-                    <!--<id>drop-db-after-Test</id>-->
-                    <!--<phase>Test</phase>-->
-                    <!--<goals>-->
-                    <!--<goal>execute</goal>-->
-                    <!--</goals>-->
-                    <!--<configuration>-->
-                    <!--<autocommit>true</autocommit>-->
-                    <!--<sqlCommand>drop database belldb2</sqlCommand>-->
-                    <!--</configuration>-->
+                        <!--<id>create-functions</id>-->
+                        <!--<phase>process-test-resources</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>execute</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<autocommit>true</autocommit>-->
+                            <!--<srcFiles>-->
+                                <!--<srcFile>src\main\java\project\server\sql\functions.sql</srcFile>-->
+                            <!--</srcFiles>-->
+                        <!--</configuration>-->
                     <!--</execution>-->
 
-                </executions>
-            </plugin>
+                    <!--<execution>-->
+                        <!--<id>create-data</id>-->
+                        <!--<phase>process-test-resources</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>execute</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<autocommit>true</autocommit>-->
+                            <!--<srcFiles>-->
+                                <!--<srcFile>src\main\java\project\server\sql\data.sql</srcFile>-->
+                            <!--</srcFiles>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+
+                    <!--&lt;!&ndash;<execution>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<id>create-data</id>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<phase>process-Test-resources</phase>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<goals>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<goal>execute</goal>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</goals>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<orderFile>ascending</orderFile>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<fileset>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<basedir>${basedir}</basedir>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<includes>&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<include>src/main/java/functions.sql</include>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;<include>src/main/java/data.sql</include>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</includes>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</fileset>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</execution>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;<execution>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<id>drop-db-after-Test</id>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<phase>Test</phase>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<goals>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<goal>execute</goal>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</goals>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<configuration>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<autocommit>true</autocommit>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<sqlCommand>drop database belldb2</sqlCommand>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</configuration>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</execution>&ndash;&gt;-->
+
+                <!--</executions>-->
+            <!--</plugin>-->
 
         </plugins>
     </build>
-
-
 
 
 </project>

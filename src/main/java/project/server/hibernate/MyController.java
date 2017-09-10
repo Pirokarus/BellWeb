@@ -1,14 +1,10 @@
 package project.server.hibernate;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
+import project.server.hibernate.containers.Contact;
+import project.server.hibernate.containers.Group;
 import project.server.hibernate.entities.ContactsEntity;
 import project.server.hibernate.entities.GroupsEntity;
 import project.server.hibernate.entities.ReferencesTableEntity;
@@ -16,12 +12,13 @@ import project.server.hibernate.entities.UsersEntity;
 import project.server.hibernate.services.ContactsService;
 import project.server.hibernate.services.GroupsService;
 import project.server.hibernate.services.ReferencesTableService;
-import project.server.hibernate.services.UsersService;
+import project.server.hibernate.services.sequrity.SecurityService;
+import project.server.hibernate.services.sequrity.UsersService;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
+@Controller
 public class MyController {
 
     @Autowired
@@ -36,76 +33,116 @@ public class MyController {
     @Autowired
     ReferencesTableService referencesTableService;
 
+    @Autowired
+    private SecurityService securityService;
+
+    UsersEntity user;
+
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public void login(@RequestParam(value = "login")String login, @RequestParam(value = "password")String password){
+    public List<Contact> login(@RequestParam(value = "login")String login, @RequestParam(value = "password")String password){
+        securityService.autoLogin(login,password);
+        user = usersService.findByUsername(login);
+        return getAllContacts();
+    }
 
+    @ResponseBody
+    @RequestMapping(value = "/a", method = RequestMethod.GET, produces = "application/json")
+    public List<ContactsEntity> getC() {
+        return contactsService.findAll(usersService.findById(1));
     }
 
 
-    @RequestMapping(value = "getAllContacts")
-    public List<ContactsEntity> getAllContacts(){
-        UsersEntity user = usersService.findById(1);
-        return contactsService.findAll(user);
+    @ResponseBody
+    @RequestMapping(value = "getAllContacts", method = RequestMethod.GET, produces = "application/json")
+    public List<Contact> getAllContacts(){
+        List<Contact> contactList = new ArrayList<>();
+        for (ContactsEntity contactsEntity:contactsService.findAll(user)){
+            contactList.add(new Contact(contactsEntity));
+        }
+        return contactList;
     }
 
-    @RequestMapping(value = "addContact")
-    public void addContact(@RequestParam(value = "contact")ContactsEntity contactsEntity){
+    @ResponseBody
+    @RequestMapping(value = "addContact", method = RequestMethod.POST)
+    public void addContact(@RequestBody Contact contact){
+        ContactsEntity contactsEntity = contact.contactsEntity();
+        contactsEntity.setUser_id(user);
         contactsService.save(contactsEntity);
     }
 
-    @RequestMapping(value = "updateContact")
-    public void updateContact(@RequestParam(value = "contact")ContactsEntity contactsEntity){
+    @ResponseBody
+    @RequestMapping(value = "updateContact", method = RequestMethod.PUT)
+    public void updateContact(@RequestBody Contact contact){
+        ContactsEntity contactsEntity = contact.contactsEntity();
+        contactsEntity.setUser_id(user);
         contactsService.updateContact(contactsEntity);
     }
 
-    @RequestMapping(value = "deleteContact")
+    @ResponseBody
+    @RequestMapping(value = "deleteContact", method = RequestMethod.DELETE)
     public void deleteContact(@RequestParam(value = "id")int id){
         contactsService.deleteById(id);
     }
 
-    @RequestMapping(value = "addGroupToContact")
-    public void addGroupToContact(@RequestParam(value = "idC")int idC, @RequestParam(value = "idG")int idG){
+    @ResponseBody
+    @RequestMapping(value = "addGroupToContact", method = RequestMethod.POST)
+    public void addGroupToContact(@RequestParam(value = "contactId")int idC,
+                                  @RequestParam(value = "groupId")int idG){
         ReferencesTableEntity referencesTableEntity = new ReferencesTableEntity();
         referencesTableEntity.setContactsByContactId(contactsService.findById(idC));
         referencesTableEntity.setGroupsByGroupId(groupsService.findById(idG));
         referencesTableService.save(referencesTableEntity);
     }
 
-    @RequestMapping(value = "removeGroupFromContact")
-    public void removeGroupFromContact(@RequestParam(value = "idC")int idC, @RequestParam(value = "idG")int idG){
+    @ResponseBody
+    @RequestMapping(value = "removeGroupFromContact", method = RequestMethod.DELETE)
+    public void removeGroupFromContact(@RequestParam(value = "contactId")int idC,
+                                       @RequestParam(value = "groupId")int idG){
         referencesTableService.delete(idC,idG);
     }
 
-    @RequestMapping(value = "getGroupsContacts")
-    public List<ContactsEntity> getGroupsContacts(@RequestParam(value = "idG")int idG){
-        List<ContactsEntity> list = new ArrayList<>();
-        List<ReferencesTableEntity> referencesList = referencesTableService.findAllByGroupId(idG);
+    @ResponseBody
+    @RequestMapping(value = "getGroupsContacts", method = RequestMethod.GET, produces = "application/json")
+    public List<Contact> getGroupsContacts(@RequestParam(value = "id")int id){
+        List<Contact> list = new ArrayList<>();
+        List<ReferencesTableEntity> referencesList = referencesTableService.findAllByGroupId(id);
         for (ReferencesTableEntity referencesTableEntity:referencesList){
-            list.add(referencesTableEntity.getContactsByContactId());
+            list.add(new Contact(referencesTableEntity.getContactsByContactId()));
         }
 
         return list;
     }
 
-    @RequestMapping(value = "getAllGroups")
-    public List<GroupsEntity> getAllGroups(){
-        UsersEntity user = usersService.findById(1);
-        return groupsService.findAll(user);
+    @ResponseBody
+    @RequestMapping(value = "getAllGroups", method = RequestMethod.GET, produces = "application/json")
+    public List<Group> getAllGroups(){
+        List<Group> groups = new ArrayList<>();
+        for (GroupsEntity groupsEntity:groupsService.findAll(user)){
+            groups.add(new Group(groupsEntity));
+        }
+        return groups;
     }
 
-    @RequestMapping(value = "addGroup")
-    public void addGroup(@RequestParam(value = "group")GroupsEntity groupsEntity){
+    @ResponseBody
+    @RequestMapping(value = "addGroup", method = RequestMethod.POST)
+    public void addGroup(@RequestBody Group group){
+        GroupsEntity groupsEntity = group.groupsEntity();
+        groupsEntity.setUser_id(user);
         groupsService.save(groupsEntity);
     }
 
-    @RequestMapping(value = "updateGroup")
-    public void updateGroup(@RequestParam(value = "group")GroupsEntity groupsEntity){
+    @ResponseBody
+    @RequestMapping(value = "updateGroup", method = RequestMethod.PUT)
+    public void updateGroup(@RequestBody Group group){
+        GroupsEntity groupsEntity = group.groupsEntity();
+        groupsEntity.setUser_id(user);
         groupsService.updateGroup(groupsEntity);
     }
 
-    @RequestMapping(value = "deleteGroup")
-    public void deleteGroup(@RequestParam(value = "id")int id){
+    @ResponseBody
+    @RequestMapping(value = "deleteGroup", method = RequestMethod.DELETE)
+    public void deleteGroup(@RequestParam(value = "id") int id){
         groupsService.deleteById(id);
     }
 

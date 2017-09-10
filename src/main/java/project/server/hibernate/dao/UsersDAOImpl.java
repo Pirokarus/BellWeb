@@ -61,4 +61,11 @@ public class UsersDAOImpl extends AbstractDAO implements UsersDAO {
     public void updateUser(UsersEntity entity) {
         update(entity);
     }
+
+    @Override
+    public UsersEntity findByUsername(String username) {
+        Criteria criteria = getSession().createCriteria(UsersEntity.class);
+        criteria.add(Restrictions.eq("login", username));
+        return (UsersEntity) criteria.uniqueResult();
+    }
 }

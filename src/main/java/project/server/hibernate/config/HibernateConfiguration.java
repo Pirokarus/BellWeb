@@ -14,13 +14,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.Properties;
-
+/*
 @Configuration
 @EnableTransactionManagement
 @ComponentScan({"project.server.hibernate"})
-@PropertySource(value = {"classpath:dboptions.properties"})
+@PropertySource(value = {"classpath:dboptions.properties"})*/
 public class HibernateConfiguration {
-
+/*
     @Autowired
     private Environment environment;
 
@@ -56,5 +56,5 @@ public class HibernateConfiguration {
         sessionFactory.setPackagesToScan(new String[]{"project.server.hibernate.entities"});
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
-    }
+    }*/
 }

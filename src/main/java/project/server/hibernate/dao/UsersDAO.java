@@ -19,4 +19,6 @@ public interface UsersDAO {
     void deleteById(int id);
 
     void updateUser(UsersEntity entity);
+
+    UsersEntity findByUsername(String username);
 }

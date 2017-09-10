@@ -1,11 +1,17 @@
-package project.server.hibernate.services;
+package project.server.hibernate.services.sequrity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import project.server.hibernate.dao.RoleDAO;
 import project.server.hibernate.dao.UsersDAO;
+import project.server.hibernate.entities.RolesEntity;
 import project.server.hibernate.entities.UsersEntity;
+
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service("usersService")
 @Transactional
@@ -13,6 +19,12 @@ public class UsersServiceImpl implements UsersService {
 
     @Autowired
     private UsersDAO usersDAO;
+
+    @Autowired
+    private RoleDAO roleDAO;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public int getId(String login, String password) {
@@ -26,6 +38,10 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void save(UsersEntity entity) {
+        entity.setPassword(bCryptPasswordEncoder.encode(entity.getPassword()));
+        Set<RolesEntity> roles = new HashSet<>();
+        roles.add(roleDAO.findById(1));
+        entity.setRoles(roles);
         usersDAO.save(entity);
     }
 
@@ -47,5 +63,10 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public void updateUser(UsersEntity entity) {
         usersDAO.updateUser(entity);
+    }
+
+    @Override
+    public UsersEntity findByUsername(String username) {
+        return usersDAO.findByUsername(username);
     }
 }
