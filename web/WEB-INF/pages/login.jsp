@@ -12,11 +12,7 @@
 </head>
 <body>
 
-<form id="login" action="/login" method="post">
-    <p> <input type="text" name="login"></p>
-    <p><input type="text" name="password"></p>
-    <input type="submit" id = "driver" value="Login" />
-</form>
+Welcome
 
 </body>
 </html>

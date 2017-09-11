@@ -2,6 +2,7 @@ package project.server.hibernate.servlet;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import project.server.factory.EntityFactory;
 import project.server.hibernate.servlet.services.HibernateContactServiceImpl;
 import project.server.hibernate.servlet.services.HibernateGroupServiceImpl;
@@ -24,8 +25,11 @@ public class MyServlet extends HttpServlet {
 //    AbstractContactService contactService = ContactService.getInstance();
 //    AbstractGroupService groupService = GroupService.getInstance();
 
+//    ApplicationContext ctx =
+//            WebApplicationContextUtils.getRequiredWebApplicationContext(
+//                    this.getServletContext());
 
-
+    ApplicationContext ctx;
 
     String login;
     String password;
@@ -34,13 +38,16 @@ public class MyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        ApplicationContext ctx =
-                new ClassPathXmlApplicationContext("appconfig-root.xml");
+
+        ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(
+                        this.getServletContext());
         HibernateContactServiceImpl contactService = (HibernateContactServiceImpl)ctx.getBean("servletContactsService");
         HibernateGroupServiceImpl groupService = (HibernateGroupServiceImpl)ctx.getBean("servletGroupService");
 
         login = req.getParameter("login");
         password = req.getParameter("password");
+        System.out.println(login);
+        System.out.println(password);
 
         user_id = contactService.login(login,password);
 
@@ -75,8 +82,6 @@ public class MyServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 
-        ApplicationContext ctx =
-                new ClassPathXmlApplicationContext("appconfig-root.xml");
         HibernateContactServiceImpl contactService = (HibernateContactServiceImpl)ctx.getBean("servletContactsService");
         HibernateGroupServiceImpl groupService = (HibernateGroupServiceImpl)ctx.getBean("servletGroupService");
 
