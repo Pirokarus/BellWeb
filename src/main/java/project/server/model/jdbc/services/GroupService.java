@@ -1,13 +1,18 @@
 package project.server.model.jdbc.services;
 
 
+import org.xml.sax.SAXException;
 import project.server.model.jdbc.dao.GroupDAO;
 import project.server.model.jdbc.dao.jdbc.JdbcGroupDAO;
 import project.server.model.jdbc.data.Group;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.xpath.XPathExpressionException;
+import java.io.IOException;
 import java.util.*;
 
-public class GroupService extends Observable implements GroupDAO {
+public class GroupService extends Observable implements AbstractGroupService {
 
     private static volatile GroupService service;
     private Vector<Observer> observers = new Vector<Observer>();
@@ -34,6 +39,11 @@ public class GroupService extends Observable implements GroupDAO {
     public synchronized void save(Group group, int user_id) throws Exception {
         groupDAO.save(group,user_id);
         updateEvent();
+    }
+
+    @Override
+    public void remove(Group group) throws Exception {
+        removeById(group.getId());
     }
 /*
     @Override

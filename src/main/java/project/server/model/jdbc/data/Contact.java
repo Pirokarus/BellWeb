@@ -1,9 +1,13 @@
 package project.server.model.jdbc.data;
 
 import project.server.exceptions.MyNotPhoneNumberException;
+import project.server.hibernate.entities.ContactsEntity;
+import project.server.hibernate.entities.ReferencesTableEntity;
+import project.server.hibernate.entities.UsersEntity;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Contact extends Entity implements Serializable{           //Класс для описания контактов
@@ -24,6 +28,40 @@ public class Contact extends Entity implements Serializable{           //Кла�
         this.firstName = firstName;
         this.lastName = lastName;
         setNumber(number);
+    }
+
+    public ContactsEntity contactsEntity(UsersEntity usersEntity){
+        ContactsEntity contactsEntity = new ContactsEntity();
+        if(id!=null) {
+            contactsEntity.setId(id);
+        }
+        if(firstName!=null) {
+            contactsEntity.setFirstname(firstName);
+        }
+        if (lastName!=null) {
+            contactsEntity.setLastname(lastName);
+        }
+        if (number!=null) {
+            contactsEntity.setNumber(number);
+        }
+        contactsEntity.setUser_id(usersEntity);
+        return contactsEntity;
+    }
+
+    public Contact(ContactsEntity contactsEntity, List<ReferencesTableEntity> referencesTableEntities){
+        id = contactsEntity.getId();
+        firstName = contactsEntity.getFirstname();
+        lastName = contactsEntity.getLastname();
+        number = contactsEntity.getNumber();
+        if (!referencesTableEntities.isEmpty()) {
+            for (ReferencesTableEntity referencesTableEntity : referencesTableEntities) {
+            //for(Object object:referencesTableEntities){
+              //  ReferencesTableEntity referencesTableEntity = (ReferencesTableEntity)object;
+                if (referencesTableEntity.getContactsEntity().getId() == this.id) {
+                    this.groupId.add(referencesTableEntity.getGroupsEntity().getId());
+                }
+            }
+        }
     }
 
     public Contact(Integer id, String firstName, String lastName, String number, Set<Integer> groupId) {

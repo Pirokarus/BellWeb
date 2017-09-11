@@ -1,6 +1,7 @@
 package project.server.hibernate.dao;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import project.server.hibernate.entities.ReferencesTableEntity;
@@ -15,17 +16,24 @@ public class ReferencesTableDAOImpl extends AbstractDAO implements ReferencesTab
     }
 
     @Override
-    public List<ReferencesTableEntity> findAllByGroupId(int groupId) {
+    public List<ReferencesTableEntity> findAllByGroupId(int group_id) {
+        /*
         Criteria criteria = getSession().createCriteria(ReferencesTableEntity.class);
-        criteria.add(Restrictions.eq("group_id", groupId));
-        return (List<ReferencesTableEntity>)criteria.list();
+        criteria.add(Restrictions.eq("group_id.id", group_id));
+        return (List<ReferencesTableEntity>)criteria.list();*/
+
+        Query result = getSession().createQuery("FROM ReferencesTableEntity r WHERE r.groupsEntity.id = " + group_id);
+        return (List<ReferencesTableEntity>)result.list();
     }
 
     @Override
-    public List<ReferencesTableEntity> findAllByContactId(int contactId) {
-        Criteria criteria = getSession().createCriteria(ReferencesTableEntity.class);
-        criteria.add(Restrictions.eq("contact_id", contactId));
-        return (List<ReferencesTableEntity>)criteria.list();
+    public List<ReferencesTableEntity> findAllByContactId(int contact_id) {
+//        Criteria criteria = getSession().createCriteria(ReferencesTableEntity.class);
+//        criteria.add(Restrictions.eq("contact_id.id", contact_id));
+//        return (List<ReferencesTableEntity>)criteria.list();
+
+        Query result = getSession().createQuery("FROM ReferencesTableEntity r WHERE r.contactsEntity.id = " + contact_id);
+        return (List<ReferencesTableEntity>)result.list();
     }
 
     @Override
@@ -35,4 +43,6 @@ public class ReferencesTableDAOImpl extends AbstractDAO implements ReferencesTab
         criteria.add(Restrictions.eq("group_id", groupId));
         delete((ReferencesTableEntity)criteria.uniqueResult());
     }
+
+
 }

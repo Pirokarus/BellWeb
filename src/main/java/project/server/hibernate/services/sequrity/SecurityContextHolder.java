@@ -1,4 +1,4 @@
-package project.server.hibernate;
+package project.server.hibernate.services.sequrity;
 
 public class SecurityContextHolder {
     private static final ThreadLocal<Integer> threadLocalScope = new  ThreadLocal<>();

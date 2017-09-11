@@ -49,4 +49,8 @@ public interface AbstractContactService {
      */
     Contact getById(int id) throws Exception;
 
+    void addContactGroup(int idC, int idG);
+    void removeContactGroup(int idC, int idG);
+    int login(String login, String password);
+
 }

@@ -1,4 +1,4 @@
-package project.server.hibernate;
+package project.server.hibernate.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -90,8 +90,8 @@ public class MyController {
     public void addGroupToContact(@RequestParam(value = "contactId")int idC,
                                   @RequestParam(value = "groupId")int idG){
         ReferencesTableEntity referencesTableEntity = new ReferencesTableEntity();
-        referencesTableEntity.setContactsByContactId(contactsService.findById(idC));
-        referencesTableEntity.setGroupsByGroupId(groupsService.findById(idG));
+        referencesTableEntity.setContactsEntity(contactsService.findById(idC));
+        referencesTableEntity.setGroupsEntity(groupsService.findById(idG));
         referencesTableService.save(referencesTableEntity);
     }
 
@@ -108,7 +108,7 @@ public class MyController {
         List<Contact> list = new ArrayList<>();
         List<ReferencesTableEntity> referencesList = referencesTableService.findAllByGroupId(id);
         for (ReferencesTableEntity referencesTableEntity:referencesList){
-            list.add(new Contact(referencesTableEntity.getContactsByContactId()));
+            list.add(new Contact(referencesTableEntity.getContactsEntity()));
         }
 
         return list;

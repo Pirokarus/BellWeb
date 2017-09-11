@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class AbstractDAO {
 
-    Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
+    //Logger logger = LoggerFactory.getLogger(AbstractDAO.class);
 
     @Autowired
     SessionFactory sessionFactory;
@@ -24,7 +24,7 @@ public class AbstractDAO {
 
     public void persist(Object entity){
         getSession().persist(entity);
-        logger.info("Seving", entity);
+        //logger.info("Seving", entity);
     }
 
     public void delete(Object entity){

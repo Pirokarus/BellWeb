@@ -6,12 +6,12 @@
   <session-factory>
     <property name="connection.url">jdbc:postgresql://localhost:5433/postgres</property>
     <property name="connection.driver_class">org.postgresql.Driver</property>
-      <mapping class="project.server.hibernate.entities.ContactsEntity"/>
+    <mapping class="project.server.hibernate.entities.ContactsEntity"/>
       <mapping class="project.server.hibernate.entities.GroupsEntity"/>
-      <mapping class="project.server.hibernate.entities.ReferencesTableEntity"/>
       <mapping class="project.server.hibernate.entities.UsersEntity"/>
       <mapping class="project.server.hibernate.entities.RolesEntity"/>
-      <!-- <property name="connection.username"/> -->
+    <mapping class="project.server.hibernate.entities.ReferencesTableEntity"/>
+    <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 
     <!-- DB schema will be updated if needed -->
