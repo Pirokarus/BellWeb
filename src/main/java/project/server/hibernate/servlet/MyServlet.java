@@ -4,6 +4,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import project.server.factory.EntityFactory;
+import project.server.hibernate.dao.UsersDAO;
+import project.server.hibernate.dao.UsersDAOImpl;
 import project.server.hibernate.servlet.services.HibernateContactServiceImpl;
 import project.server.hibernate.servlet.services.HibernateGroupServiceImpl;
 import project.server.model.jdbc.data.Contact;
@@ -41,6 +43,8 @@ public class MyServlet extends HttpServlet {
 
         ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(
                         this.getServletContext());
+        UsersDAO usersDAO = (UsersDAO) ctx.getBean("usersDAO");
+        user_id = usersDAO.getUser_id();
         HibernateContactServiceImpl contactService = (HibernateContactServiceImpl)ctx.getBean("servletContactsService");
         HibernateGroupServiceImpl groupService = (HibernateGroupServiceImpl)ctx.getBean("servletGroupService");
 

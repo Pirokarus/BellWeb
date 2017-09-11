@@ -21,4 +21,6 @@ public interface UsersDAO {
     void updateUser(UsersEntity entity);
 
     UsersEntity findByUsername(String username);
+
+    int getUser_id();
 }

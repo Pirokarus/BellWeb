@@ -29,7 +29,9 @@ public class UsersDAOImpl extends AbstractDAO implements UsersDAO {
         Criteria criteria = getSession().createCriteria(UsersEntity.class);
         criteria.add(Restrictions.eq("login", login));
         criteria.add(Restrictions.eq("password", password));
-        return (UsersEntity)criteria.uniqueResult();
+        UsersEntity usersEntity = (UsersEntity) criteria.uniqueResult();
+        user_id = usersEntity.getId();
+        return usersEntity;
     }
 
     @Override
@@ -47,7 +49,9 @@ public class UsersDAOImpl extends AbstractDAO implements UsersDAO {
     public UsersEntity findById(int id) {
         Criteria criteria = getSession().createCriteria(UsersEntity.class);
         criteria.add(Restrictions.eq("id", id));
-        return (UsersEntity) criteria.uniqueResult();
+        UsersEntity usersEntity = (UsersEntity) criteria.uniqueResult();
+        user_id = usersEntity.getId();
+        return usersEntity;
     }
 
     @Override
@@ -66,6 +70,14 @@ public class UsersDAOImpl extends AbstractDAO implements UsersDAO {
     public UsersEntity findByUsername(String username) {
         Criteria criteria = getSession().createCriteria(UsersEntity.class);
         criteria.add(Restrictions.eq("login", username));
-        return (UsersEntity) criteria.uniqueResult();
+        UsersEntity usersEntity = (UsersEntity) criteria.uniqueResult();
+        user_id = usersEntity.getId();
+        return usersEntity;
+    }
+
+    int user_id;
+
+    public int getUser_id() {
+        return user_id;
     }
 }
