@@ -33,6 +33,6 @@
     }
 
 %>
-Dream users: <%=res %>
+Inactive users: <%=res %>
 </body>
 </html>

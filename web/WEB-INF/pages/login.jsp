@@ -12,7 +12,33 @@
 </head>
 <body>
 
-Welcome
+<form action = "/MyServlet" method="post">
+    <p><input type="submit" value="Contact Book" ></p>
+</form>
+
+<form action = "admin/numberOfUsers(a).jsp">
+    <p><input type="submit" value="Number Of Users" ></p>
+</form>
+
+<form action = "admin/numberOfUsersContacts(b).jsp">
+    <p><input type="submit" value="Number contacts of user" ></p>
+</form>
+
+<form action = "admin/numberOfUsersGroups(c).jsp">
+    <p><input type="submit" value="Number groups of user" ></p>
+</form>
+
+<form action = "admin/AvgContactsInGroup(d).jsp">
+    <p><input type="submit" value="Avg number of contacts in group" ></p>
+</form>
+
+<form action = "admin/AvgNumUsersContacts(e).jsp">
+    <p><input type="submit" value="Avg number of contacts of user" ></p>
+</form>
+
+<form action = "admin/dreamUsers(f).jsp">
+    <p><input type="submit" value="Inactive users" ></p>
+</form>
 
 </body>
 </html>

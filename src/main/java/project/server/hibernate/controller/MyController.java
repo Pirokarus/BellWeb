@@ -86,7 +86,7 @@ public class MyController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "addGroupToContact", method = RequestMethod.POST)
+    @RequestMapping(value = "addGroupToContact", method = RequestMethod.GET)
     public void addGroupToContact(@RequestParam(value = "contactId")int idC,
                                   @RequestParam(value = "groupId")int idG){
         ReferencesTableEntity referencesTableEntity = new ReferencesTableEntity();

@@ -38,10 +38,9 @@ public class ReferencesTableDAOImpl extends AbstractDAO implements ReferencesTab
 
     @Override
     public void delete(int contactId, int groupId) {
-        Criteria criteria = getSession().createCriteria(ReferencesTableEntity.class);
-        criteria.add(Restrictions.eq("contact_id", contactId));
-        criteria.add(Restrictions.eq("group_id", groupId));
-        delete((ReferencesTableEntity)criteria.uniqueResult());
+        Query result = getSession().createQuery("FROM ReferencesTableEntity r " +
+                "WHERE r.groupsEntity.id = "+ groupId + " AND r.contactsEntity.id = " + contactId );
+        delete((ReferencesTableEntity)result.uniqueResult());
     }
 
 

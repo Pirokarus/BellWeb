@@ -27,14 +27,11 @@ public class MyServlet extends HttpServlet {
 //    AbstractContactService contactService = ContactService.getInstance();
 //    AbstractGroupService groupService = GroupService.getInstance();
 
-//    ApplicationContext ctx =
-//            WebApplicationContextUtils.getRequiredWebApplicationContext(
-//                    this.getServletContext());
 
     ApplicationContext ctx;
 
-    String login;
-    String password;
+    //String login;
+    //String password;
     Integer user_id;
 
     @Override
@@ -48,12 +45,14 @@ public class MyServlet extends HttpServlet {
         HibernateContactServiceImpl contactService = (HibernateContactServiceImpl)ctx.getBean("servletContactsService");
         HibernateGroupServiceImpl groupService = (HibernateGroupServiceImpl)ctx.getBean("servletGroupService");
 
-        login = req.getParameter("login");
-        password = req.getParameter("password");
-        System.out.println(login);
-        System.out.println(password);
+        //login = req.getParameter("login");
+        //password = req.getParameter("password");
+        //System.out.println(login);
+        //System.out.println(password);
 
-        user_id = contactService.login(login,password);
+        //user_id = contactService.login(login,password);
+
+        user_id = usersDAO.getUser_id();
 
         resp.setContentType("text/html");
         req.setCharacterEncoding("UTF-8");
@@ -413,7 +412,7 @@ public class MyServlet extends HttpServlet {
                             }
                         }
                     }
-                    stringBuffer.append("></p>\n");
+                    stringBuffer.append("</p>\n");
                 }
 
                 stringBuffer.append("<input type=\"submit\" id=\"menu\" name=\"menu\" value=\"Menu\" />\n" +
